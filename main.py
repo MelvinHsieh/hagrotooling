@@ -1,65 +1,18 @@
 import sys
-import tabula
 
-from PyQt5.QtCore import QThread, QTimer
-from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QApplication, QLabel, QPushButton, QFileDialog, QVBoxLayout, QWidget, QProgressBar
-
-# Create the main window
-
-app = QApplication(sys.argv)
-window = QWidget()
-window.setMinimumSize(300, 200)
-window.setWindowTitle("Hagro Material Master")
-window.setStyleSheet("QWidget {background-color: #2b2b2b; color: white;} QPushButton {background-color: #3592c4;}")
-
-# Create layout
-layout = QVBoxLayout()
-
-# Create a label and set its text
-label = QLabel("U heeft nog geen PDF bedstanden geselecteerd.")
-layout.addWidget(label)
-
-# Create a button to open the file selection dialog
-button = QPushButton("Selecteer PDF bestanden")
-layout.addWidget(button)
-
-# Create a QIcon from a resource file
-icon = QIcon("icon.png")
-
-# Set the window icon
-window.setWindowIcon(icon)
-
-
-# Create a function to handle the button click event
-def on_button_clicked():
-    # Open the file selection dialog
-    file_names, _ = QFileDialog.getOpenFileNames(window, "Selecteer PDF bestanden met materiaaltabellen", "",
-                                                 "PDF Files (*.pdf)")
-
-    # Update the label text
-    label.setText("Geselecteerde PDF bestanden:\n" + "\n".join(file_names))
-    load_pdf(file_names)
-
-
-def load_pdf(file_names):
-    # read the PDF file using tabula
-    tables = tabula.read_pdf(file_names[0], stream=True, pages="all", multiple_tables=True, guess=True)
-
-    # TODO: Some tables have the second row as their "column" header.
-    # TODO: For example, see testdata "fraeskatalog....pdf", page 338.
-
-    # TODO: The identifying column name is on the second row, it's called W-Nr. Mat.-No.
-    for table in tables:
-        print(table)
-
-
-# Connect the button click event to the function
-button.clicked.connect(on_button_clicked)
-
-# Show the main window
-window.setLayout(layout)
-window.show()
+from PyQt5.QtWidgets import QApplication
 
 # Run the main loop
-sys.exit(app.exec_())
+from scripts.pdfimportwindow import PdfImportWindow
+from scripts.configurationcreatorwindow import ConfigurationCreatorWindow
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+
+    configuration_creator_window = ConfigurationCreatorWindow()
+
+    # Todo: This window, or at least the tabula load pdf function, should be ran on a different thread to not-freeze
+    #  the app.
+    pdf_import_window = PdfImportWindow()
+
+    sys.exit(app.exec_())
