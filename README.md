@@ -17,6 +17,7 @@ Door middel van de ingestelde structuur kan worden afgeleid welke tabellen deze 
 - (PRIO) Het omzetten van de uitgelezen datastream naar een leesbaar formaat zoals JSON
 - (PRIO) Het instellen en uitlezen van een configureerbare structuur per fabrikant voor de pdf's.
 - Het converteren van kolomnamen naar een vooraf bepaalde naam (Zie hierboven)
+- Opslaan van uitgelezen data in een NoSql database, zoals Mongo.
 
 ### Verbeterpunten:
 - Het lezen van de pdf's op een andere Thread runnen zodat de applicatie niet freezed bij grote bestanden (bijvoorbeeld, een pdf van 300 pagina's).

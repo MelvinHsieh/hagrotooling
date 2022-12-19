@@ -2,6 +2,7 @@ import sys
 import tabula
 
 from PyQt5.QtCore import QThread, QTimer
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QApplication, QLabel, QPushButton, QFileDialog, QVBoxLayout, QWidget, QProgressBar
 
 # Create the main window
@@ -9,7 +10,7 @@ from PyQt5.QtWidgets import QApplication, QLabel, QPushButton, QFileDialog, QVBo
 app = QApplication(sys.argv)
 window = QWidget()
 window.setMinimumSize(300, 200)
-window.setWindowTitle("Hagrotooling")
+window.setWindowTitle("Hagro Material Master")
 window.setStyleSheet("QWidget {background-color: #2b2b2b; color: white;} QPushButton {background-color: #3592c4;}")
 
 # Create layout
@@ -22,6 +23,12 @@ layout.addWidget(label)
 # Create a button to open the file selection dialog
 button = QPushButton("Selecteer PDF bestanden")
 layout.addWidget(button)
+
+# Create a QIcon from a resource file
+icon = QIcon("icon.png")
+
+# Set the window icon
+window.setWindowIcon(icon)
 
 
 # Create a function to handle the button click event
@@ -37,8 +44,12 @@ def on_button_clicked():
 
 def load_pdf(file_names):
     # read the PDF file using tabula
-    tables = tabula.read_pdf(file_names[0], stream=True, pages="all", multiple_tables=True)
+    tables = tabula.read_pdf(file_names[0], stream=True, pages="all", multiple_tables=True, guess=True)
 
+    # TODO: Some tables have the second row as their "column" header.
+    # TODO: For example, see testdata "fraeskatalog....pdf", page 338.
+
+    # TODO: The identifying column name is on the second row, it's called W-Nr. Mat.-No.
     for table in tables:
         print(table)
 
