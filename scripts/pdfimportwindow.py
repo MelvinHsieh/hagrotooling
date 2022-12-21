@@ -57,5 +57,10 @@ class PdfImportWindow(QWidget):
         # TODO: For example, see testdata "fraeskatalog....pdf", page 338.
 
         # TODO: The identifying column name is on the second row, it's called W-Nr. Mat.-No.
-        for table in tables:
-            print(table)
+
+        # To write to "csv" instead, replace the filename .json to csv, and the output format from json to csv.
+        for i, table in enumerate(tables):
+            file_name = f'table_{i}.json'
+            # Write the table to the file
+            tabula.convert_into(self.file_names[0], file_name, output_format="json", pages=i + 1)
+            print(f'Successfully wrote table {i} to {file_name}')

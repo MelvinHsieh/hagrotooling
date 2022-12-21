@@ -1,5 +1,6 @@
 import json
 
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import (QGridLayout, QLabel, QLineEdit,
                              QPushButton, QWidget, QFileDialog)
 
@@ -7,6 +8,12 @@ from PyQt5.QtWidgets import (QGridLayout, QLabel, QLineEdit,
 class ConfigurationCreatorWindow(QWidget):
     def __init__(self):
         super().__init__()
+
+        self.setMinimumWidth(400)
+        self.setWindowTitle("Hagro Pdf Configuration Creator")
+        self.setStyleSheet("QWidget {background-color: #2b2b2b; color: white;} QPushButton {background-color: #3592c4;}")
+        icon = QIcon("icon.png")
+        self.setWindowIcon(icon)
 
         # Create a label and text field for the file name
         name_label = QLabel("Configuratiebestandsnaam:")
@@ -17,11 +24,11 @@ class ConfigurationCreatorWindow(QWidget):
         add_button.clicked.connect(self.add_text_field)
 
         # Create a button to save the data to a JSON file
-        save_button = QPushButton("Save")
+        save_button = QPushButton("Opslaan")
         save_button.clicked.connect(self.save_data)
 
         # Create a button for loading the data
-        load_button = QPushButton("Load")
+        load_button = QPushButton("Inladen")
         load_button.clicked.connect(self.load_data)
 
         # Create a layout to hold the widgets
